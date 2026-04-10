@@ -20,8 +20,8 @@
     </a>
 
     <%-- 3. SẢN PHẨM: Active khi view là products --%>
-    <a class="nav-link ${param.view == 'products' ? 'active' : ''}"
-       href="${pageContext.request.contextPath}/admin?view=products">
+    <a class="nav-link ${view == 'products' ? 'active' : ''}"
+       href="${pageContext.request.contextPath}/product">
       <i class="bi bi-box-seam-fill"></i> Sản phẩm
     </a>
 

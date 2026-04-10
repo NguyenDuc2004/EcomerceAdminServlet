@@ -12,8 +12,8 @@
         <c:when test="${view == 'users'}">Quản lý người dùng</c:when>
         <c:when test="${view == 'view'}">Thông tin người dùng</c:when>
         <c:when test="${view == 'edit'}">Cập nhật thông tin</c:when>
-        <c:when test="${param.view == 'products'}">Danh mục sản phẩm</c:when>
-        <c:when test="${param.view == 'history'}">Nhật ký hệ thống</c:when>
+        <c:when test="${view == 'products'}">Danh sách sản phẩm</c:when>
+        <c:when test="${view == 'history'}">Nhật ký hệ thống</c:when>
         <c:otherwise>Tổng quan Dashboard</c:otherwise>
       </c:choose>
     </h5>

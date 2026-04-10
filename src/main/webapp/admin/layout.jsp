@@ -57,20 +57,25 @@
     <main class="content-body">
         <c:choose>
             <%-- Dùng requestScope.view (được gửi từ Servlet) để điều hướng --%>
+<%--            user--%>
             <c:when test="${view == 'users'}">
-                <jsp:include page="/admin/view/user/user.jsp" />
+                <jsp:include page="view/user/user.jsp" />
             </c:when>
 
             <c:when test="${view == 'view'}">
-                <jsp:include page="/admin/view/user/user-detail.jsp" />
+                <jsp:include page="view/user/user-detail.jsp" />
             </c:when>
 
             <c:when test="${view == 'edit'}">
-                <jsp:include page="/admin/view/user/user-edit.jsp" />
+                <jsp:include page="view/user/user-edit.jsp" />
+            </c:when>
+<%--            product--%>
+            <c:when test="${view == 'products'}">
+                <jsp:include page="view/product/product.jsp" />
             </c:when>
 
             <c:when test="${view == 'dashboard'}">
-                <jsp:include page="/admin/view/dashboard.jsp" />
+                <jsp:include page="view/dashboard.jsp" />
             </c:when>
 
             <%-- Mặc định hiện Dashboard --%>
