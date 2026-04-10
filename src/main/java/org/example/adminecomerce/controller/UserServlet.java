@@ -73,11 +73,21 @@ public class UserServlet extends HttpServlet {
         String password = req.getParameter("password");
         String fullname = req.getParameter("fullname");
         String email = req.getParameter("email");
+        System.out.println("Email nhan duoc tu Form: [" + email + "]");
         int roleId = Integer.parseInt(req.getParameter("roleId"));
+        HttpSession session = req.getSession();
+        if (username == null || username.trim().isEmpty() ||
+                email == null || email.trim().isEmpty()) {
+
+            session.setAttribute("toastMsg", "Lỗi: Tài khoản và Email không được để trống!");
+            session.setAttribute("toastType", "danger");
+            resp.sendRedirect(req.getContextPath() + "/user");
+            return;
+        }
         User newUser = new User(username,password,fullname,email,roleId);
         boolean isAdded = userService.createUser(newUser);
 
-        HttpSession session = req.getSession();
+
         if (isAdded) {
             session.setAttribute("toastMsg", "Đã thêm thành công tài khoản: " + username);
             session.setAttribute("toastType", "success");
@@ -118,6 +128,7 @@ public class UserServlet extends HttpServlet {
             int roleId = Integer.parseInt(req.getParameter("roleId"));
             String statusParam = req.getParameter("status");
             int status = (statusParam != null && statusParam.equals("1")) ? 1 : 0;
+
 
             User user = new User(id, fullname, email, phone, address, roleId, status);
             boolean isUpdated = userService.updateUser(user);

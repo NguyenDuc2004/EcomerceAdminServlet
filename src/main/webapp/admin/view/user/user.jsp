@@ -139,7 +139,7 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <form action="user" method="post" class="needs-validation" novalidate>
+        <form action="user" method="post" class="needs-validation" >
             <input type="hidden" name="action" value="create">
 
             <div class="modal-body p-4 bg-light">
@@ -169,11 +169,11 @@
                             <h6 class="fw-bold text-primary mb-3"><i class="bi bi-card-list me-2"></i>Thông tin chi tiết</h6>
                             <div class="mb-3">
                                 <label class="form-label small fw-bold text-muted">Họ và tên</label>
-                                <input type="text" name="fullname" class="form-control" required placeholder="Nguyễn Khắc Minh Đức">
+                                <input type="text" name="fullname" class="form-control" required placeholder="Nhập họ và tên......">
                             </div>
                             <div class="mb-0">
                                 <label class="form-label small fw-bold text-muted">Email</label>
-                                <input type="email" name="email" class="form-control" required placeholder="duc@example.com">
+                                <input type="email" name="email" class="form-control" required placeholder="vd: duc@example.com">
                             </div>
                         </div>
                     </div>
