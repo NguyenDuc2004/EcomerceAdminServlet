@@ -1,15 +1,11 @@
 package org.example.adminecomerce.controller;
 
-
 import org.example.adminecomerce.model.User;
 import org.example.adminecomerce.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet(name = "LoginServlet", value = "/login")
@@ -21,9 +17,15 @@ public class LoginServlet extends HttpServlet {
         String action = req.getParameter("action");
 
         if ("logout".equals(action)) {
-            HttpSession session = req.getSession();
-            session.invalidate(); // Xóa sạch session
-            resp.sendRedirect("page/login.jsp");
+            HttpSession session = req.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
+            HttpSession newSession = req.getSession();
+            newSession.setAttribute("toastMsg", "Đăng xuất thành công!");
+            newSession.setAttribute("toastType", "success");
+
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
@@ -36,22 +38,29 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         User account = userService.checkLogin(username, password);
-        if (account != null) {
-          //lg thanh cong thi luu vao session
-            HttpSession session = req.getSession();
-            session.setAttribute("loginedUser", account);
+        HttpSession session = req.getSession();
 
-            session.setAttribute("successMsg", "Đăng nhập thành công! Chào mừng " + account.getFullname());
-            //phan quyen
+        if (account != null) {
+            if (account.getStatus() == 0) {
+                req.setAttribute("toastMsg", "Tài khoản của bạn đã bị khóa!");
+                req.setAttribute("toastType", "danger");
+                req.getRequestDispatcher("page/login.jsp").forward(req, resp);
+                return;
+            }
+
+            session.setAttribute("loginedUser", account);
+            session.setAttribute("toastMsg", "Chào mừng " + account.getFullname() + " quay trở lại!");
+            session.setAttribute("toastType", "success");
+
             if (account.isAdmin()) {
-                resp.sendRedirect("admin/dashboard.jsp");
+                resp.sendRedirect(req.getContextPath() + "/dashboard");
             } else {
-                resp.sendRedirect("index.jsp");
+                resp.sendRedirect(req.getContextPath() + "/index.jsp"); // Hoặc trang chủ của khách
             }
         } else {
-            //that bai thi ve lai trang login
-            req.setAttribute("error", "Tài khoản hoặc mật khẩu không chính xác!");
-            req.getRequestDispatcher("page/login.jsp").forward(req,resp);
+            req.setAttribute("toastMsg", "Tài khoản hoặc mật khẩu không chính xác!");
+            req.setAttribute("toastType", "danger");
+            req.getRequestDispatcher("page/login.jsp").forward(req, resp);
         }
     }
 }
